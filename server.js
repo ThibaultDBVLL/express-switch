@@ -1,18 +1,23 @@
-// write you're code here Good Luck
-var express = require('express');
+var express = require("express");
+var app = express();
+var path = require ('path');
+var fs = require('fs');
 var bodyParser = require('body-parser');
 
-var app = express();
+app.use(express.static('public'))
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: true}));
 
-// parse application/json
-app.use(bodyParser.json());
+app.use (bodyParser.json());
 
-app.use(function (req, res) {
-  res.setHeader('Content-Type', 'text/plain');
-  res.write('you posted:\n');
-  res.end(JSON.stringify(req.body, null, 2));
-})
-;
+app.get("/", function(req, res){
+    res.sendFile(path.join("/public/index.html"));
+});
+
+app.post("/post/article", function(req, res){
+    res.send ('article posté');
+    })
+
+app.listen(1337, function(){
+    console.log("Listen port 1337");
+});
